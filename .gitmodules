@@ -1,0 +1,3 @@
+[submodule "examples/inventory"]
+	path = examples/inventory
+	url = https://github.com/EthconKorea2023/inventory.git
