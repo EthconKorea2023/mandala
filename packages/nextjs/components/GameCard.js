@@ -4,6 +4,8 @@ import { ButtonBase, Paper, paperClasses, styled } from "@mui/material";
 import { List } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
 import useEnvStore from "~~/utils/store/envStore";
+import { getTBAForEachCharacter, getTokenURIForEachCharacter } from "~~/utils/mandala/utils";
+import { SmartAccount } from "@biconomy/account";
 
 // const Droppable = dynamic(
 //   () =>
@@ -25,6 +27,7 @@ const StyledCardGameWrapper = styled("div")(({ theme }) => ({
 }));
 
 export default function GameCard() {
+  // const smartAccount = 
   const [selectedGame, setGame] = useEnvStore(state => [state.selectedGame, state.setGame]);
   const [gameList, setGameList] = useState([
     {
@@ -49,9 +52,24 @@ export default function GameCard() {
     setGame(result);
   }
 
+
+
   useEffect(() => {
+
+    async function getDatas() {
+      const TBAarr = await getTBAForEachCharacter()
+      console.log(TBAarr)
+
+      const tokenURIarr = await getTokenURIForEachCharacter()
+      console.log(tokenURIarr)
+
+    }
     // // Fetching 'game&character list' from chain
     // setGameList()
+    getDatas()
+
+    // console.log(result)
+
   }, []);
 
   return (

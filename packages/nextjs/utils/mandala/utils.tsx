@@ -160,6 +160,10 @@ export async function whoHasTheOneRing() {
   console.log(`${TBAAddress2} : ${balance2.toNumber()}`);
 }
 
+// export isOwnRing
+
+
+
 export async function getTBAForEachCharacter() {
   const smartAccount = useMandalaStore.getState().biconomySmartAccount;
   //get my token id

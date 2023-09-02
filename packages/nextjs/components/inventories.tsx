@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Box, Button } from "@mui/material";
 import {
-  createMockCharacters,
-  getTBAForEachCharacter,
-  getTokenURIForEachCharacter,
-  transferOneRing,
-  whoHasTheOneRing,
+  createMockCharacters, // mock data 생성할때
+  getTBAForEachCharacter, // 생성된 캐릭터들의 TBA 지갑 주소를 배열로
+  getTokenURIForEachCharacter, // 생성된 캐릭터들의 토큰 URI를 배열로
+  transferOneRing,  // 원링을 전송하는 함수
+  whoHasTheOneRing, // 원링을 가지고 있는지 확인하는 함수
 } from "~~/utils/mandala/utils";
 import { useMandalaStore } from "~~/utils/mandalaStore";
 
