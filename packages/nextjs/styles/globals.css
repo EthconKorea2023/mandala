@@ -4,7 +4,8 @@ body {
   overflow: hidden;
 }
 
-body > #__next body > #__next > div,
+body > #__next,
+body > #__next > div,
 body > #__next > div > #root,
 body > #__next > div > #root > main {
   height: 100%;
