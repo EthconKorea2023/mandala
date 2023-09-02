@@ -6,9 +6,11 @@ import GameInventory from "~~/components/GameInventory";
 
 const StyledDiv = styled("div")(({ theme }) => ({
   width: "100%",
-  height: "100%",
+  height: "calc(100% - 64px)",
   display: "flex",
   flexDirection: "column",
+  position: "absolute",
+  top: 64,
 }));
 // import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 // import { MetaHeader } from "~~/components/MetaHeader";
