@@ -54,7 +54,7 @@ export default function GameInventoryBox() {
   ]);
   const items = useMemo(() => {
     if (rawItems.length >= 9) return rawItems;
-    const minArray = new Array(9);
+    const minArray = new Array(9).fill(undefined);
     for (let i = 0; i < rawItems.length; i++) {
       minArray[i] = rawItems[i];
     }
