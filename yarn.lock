@@ -4078,6 +4078,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
     framer-motion: ^10.16.2
+    immutable: ^5.0.0-beta.4
     next: ^13.1.6
     nextjs-progressbar: ^0.0.16
     postcss: ^8.4.16
@@ -11867,6 +11868,13 @@ __metadata:
   version: 4.3.4
   resolution: "immutable@npm:4.3.4"
   checksum: de3edd964c394bab83432429d3fb0b4816b42f56050f2ca913ba520bd3068ec3e504230d0800332d3abc478616e8f55d3787424a90d0952e6aba864524f1afc3
+  languageName: node
+  linkType: hard
+
+"immutable@npm:^5.0.0-beta.4":
+  version: 5.0.0-beta.4
+  resolution: "immutable@npm:5.0.0-beta.4"
+  checksum: aba11dea1713e4d5a04275a4fbd4947b25807c79e41a516138a8549ceb03344508965fd418ffb3252b31ebf44fc846623bd7a3a4af8948d94be758aca0429757
   languageName: node
   linkType: hard
 
