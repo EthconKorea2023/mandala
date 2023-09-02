@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 // import dynamic from "next/dynamic";
-import { Paper, styled } from "@mui/material";
+import { ButtonBase, Paper, paperClasses, styled } from "@mui/material";
 import { List } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
+import useEnvStore from "~~/utils/store/envStore";
 
 // const Droppable = dynamic(
 //   () =>
@@ -15,7 +16,7 @@ const StyledCardGameWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   height: 240,
   display: "inline-flex",
-  [`& > div`]: {
+  [`& > .${paperClasses.root}`]: {
     width: 180,
     margin: theme.spacing(0, 1),
     position: "relative",
@@ -23,6 +24,7 @@ const StyledCardGameWrapper = styled("div")(({ theme }) => ({
 }));
 
 export default function GameCard() {
+  const [selectedGame, setGame] = useEnvStore(state => [state.selectedGame, state.setGame]);
   const [gameList, setGameList] = useState([
     {
       name: "Gollum",
@@ -39,6 +41,13 @@ export default function GameCard() {
     },
   ]);
 
+  function handleClick(e) {
+    const { item } = e.currentTarget.dataset ?? {};
+    if (item === undefined) return;
+    const result = Number(item);
+    setGame(result);
+  }
+
   useEffect(() => {
     // // Fetching 'game&character list' from chain
     // setGameList()
@@ -50,6 +59,9 @@ export default function GameCard() {
         <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
           {(provided, snapshot) => (
             <Paper
+              component={_idx === selectedGame ? undefined : ButtonBase}
+              data-item={_idx}
+              onClick={handleClick}
               ref={provided.innerRef}
               {...provided.droppableProps}
               style={{
