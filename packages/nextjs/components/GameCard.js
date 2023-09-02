@@ -98,6 +98,8 @@ export default function GameCard() {
       console.log(tokenURIarr);
       setCharacterTokenURIArr([...tokenURIarr]);
 
+      if(TBAarr.length === 0) return;
+
       const isGollumOwnTheRing = await isOwnRing(TBAarr[0]);
       const isSampleCharacterOwnTheRing = await isOwnRing(TBAarr[1]);
 
