@@ -4,7 +4,7 @@ import { ButtonBase, Paper, paperClasses, styled } from "@mui/material";
 import { List } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
 import useEnvStore from "~~/utils/store/envStore";
-import { getTBAForEachCharacter, getTokenURIForEachCharacter } from "~~/utils/mandala/utils";
+import { getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
 import { SmartAccount } from "@biconomy/account";
 
 // const Droppable = dynamic(
@@ -62,6 +62,12 @@ export default function GameCard() {
 
       const tokenURIarr = await getTokenURIForEachCharacter()
       console.log(tokenURIarr)
+
+      const isGollumOwnTheRing = await isOwnRing(TBAarr[0])
+      const isSampleCharacterOwnTheRing = await isOwnRing(TBAarr[1])
+
+      console.log(isGollumOwnTheRing)
+      console.log(isSampleCharacterOwnTheRing)
 
     }
     // // Fetching 'game&character list' from chain
