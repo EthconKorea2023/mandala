@@ -118,7 +118,7 @@ export default function Root() {
           <Typography variant="h1" component={m.h1} layout layoutId="title">
             Mandala
           </Typography>
-          <Typography variant="h5">the blablabla</Typography>
+          <Typography variant="h5">The Ultimate Web3 Gaming Inventory</Typography>
           <BiconomyButton />
         </div>
       )}
