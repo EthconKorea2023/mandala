@@ -43,6 +43,9 @@ const StyledCardGameWrapper = styled(Paper)(({ theme }) => ({
     margin: theme.spacing(0, 1),
     position: "relative",
     overflow: "hidden",
+    [`&.selected`]: {
+      filter: "brightness(0.5)",
+    },
     [`& > .${typographyClasses.caption}`]: {
       position: "absolute",
       bottom: 0,
@@ -156,39 +159,37 @@ export default function GameCard() {
         )}
         {Array.isArray(characterTBAArr) ? (
           <>
-            {gameList.map((_game, _idx) =>
-              _idx !== selectedGame ? (
-                <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
-                  {(provided, snapshot) => (
-                    <Paper
-                      component={ButtonBase}
-                      data-item={_idx}
-                      onClick={handleClick}
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
+            {gameList.map((_game, _idx) => (
+              <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
+                {(provided, snapshot) => (
+                  <Paper
+                    className={clsx(_idx === selectedGame && "selected")}
+                    disabled={_idx === selectedGame}
+                    component={ButtonBase}
+                    data-item={_idx}
+                    onClick={handleClick}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    style={{
+                      backgroundImage: `url(${_game.image})`,
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                    }}
+                  >
+                    <div
                       style={{
-                        backgroundImage: `url(${_game.image})`,
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
+                        background: "#00000033",
+                        position: "absolute",
+                        inset: 0,
                       }}
-                    >
-                      <div
-                        style={{
-                          background: "#00000033",
-                          position: "absolute",
-                          inset: 0,
-                        }}
-                      />
-                      <Typography variant="caption">{_game.name}</Typography>
-                      {provided.placeholder}
-                    </Paper>
-                  )}
-                </Droppable>
-              ) : (
-                <Fragment />
-              ),
-            )}
+                    />
+                    <Typography variant="caption">{_game.name}</Typography>
+                    {provided.placeholder}
+                  </Paper>
+                )}
+              </Droppable>
+            ))}
             <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
               +
             </Paper>
