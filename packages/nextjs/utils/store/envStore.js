@@ -9,5 +9,17 @@ export default create(set => ({
 
   characterTokenURIArr: [],
   setCharacterTokenURIArr: v => set({ characterTokenURIArr: v }),
-  clear: () => set({ selectedGame: undefined, characterTBAArr: undefined, characterTokenURIArr: [] }),
+
+  currentGameInfo: undefined,
+  setCurrentGameInfo: v => set({ currentGameInfo: v }),
+  transferItem: undefined,
+  setTransferItem: v => set({ transferItem: v }),
+  clear: () =>
+    set({
+      selectedGame: undefined,
+      characterTBAArr: undefined,
+      characterTokenURIArr: [],
+      currentGameInfo: undefined,
+      transferItem: undefined,
+    }),
 }));

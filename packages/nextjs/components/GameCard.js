@@ -15,7 +15,12 @@ import clsx from "clsx";
 import { motion as m } from "framer-motion";
 import { List, set } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
-import { createMockCharacters, getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
+import {
+  createMockCharacters,
+  getTBAForEachCharacter,
+  getTokenURIForEachCharacter,
+  isOwnRing,
+} from "~~/utils/mandala/utils";
 import useEnvStore from "~~/utils/store/envStore";
 
 // const Droppable = dynamic(
@@ -73,7 +78,11 @@ const StyledCardGameWrapper = styled(Paper)(({ theme }) => ({
 
 export default function GameCard() {
   // const smartAccount =
-  const [selectedGame, setGame] = useEnvStore(state => [state.selectedGame, state.setGame]);
+  const [selectedGame, setGame, setGameInfo] = useEnvStore(state => [
+    state.selectedGame,
+    state.setGame,
+    state.setCurrentGameInfo,
+  ]);
   const [gameList, setGameList] = useState([
     {
       name: "Gollum",
@@ -106,6 +115,7 @@ export default function GameCard() {
     if (item === undefined) return;
     const result = Number(item);
     setGame(result);
+    setGameInfo(gameList[result]);
   }
 
   useEffect(() => {
@@ -134,7 +144,11 @@ export default function GameCard() {
   }, []);
 
   async function testCreateMockCharacters() {
-    await createMockCharacters(process.env.NEXT_PUBLIC_GAME1_ADDRESS, process.env.NEXT_PUBLIC_GAME2_ADDRESS, process.env.NEXT_PUBLIC_1155_ADDRESS);
+    await createMockCharacters(
+      process.env.NEXT_PUBLIC_GAME1_ADDRESS,
+      process.env.NEXT_PUBLIC_GAME2_ADDRESS,
+      process.env.NEXT_PUBLIC_1155_ADDRESS,
+    );
 
     // setMockCharacters(true);
   }
@@ -190,22 +204,21 @@ export default function GameCard() {
                         inset: 0,
                       }}
                     />
-                    <Typography variant="caption">{_game.name}</Typography>
+                    <Typography variant="caption">{_game.game}</Typography>
                     {provided.placeholder}
                   </Paper>
                 )}
               </Droppable>
             ))}
-            {
-              characterTBAArr.length > 0 ?
-                <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
-                  +
-                </Paper>
-                :
-                <Paper component={ButtonBase} onClick={testCreateMockCharacters}>
-                  Create Mock Game Characters
-                </Paper>
-            }
+            {characterTBAArr.length > 0 ? (
+              <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
+                +
+              </Paper>
+            ) : (
+              <Paper component={ButtonBase} onClick={testCreateMockCharacters}>
+                Create Mock Game Characters
+              </Paper>
+            )}
           </>
         ) : (
           <Paper className="typo" elevation={0}>

@@ -84,7 +84,11 @@ export default function Root() {
       console.log("same");
       return;
     } else {
+      useEnvStore.getState().setTransferItem(true);
+
       const txDetail = await transferOneRing(currenSelectedTBA, result.destination.droppableId);
+
+      useEnvStore.getState().setTransferItem(undefined);
       console.log(txDetail);
     }
   }
