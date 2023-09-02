@@ -15,7 +15,7 @@ import clsx from "clsx";
 import { motion as m } from "framer-motion";
 import { List, set } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
-import { getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
+import { createMockCharacters, getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
 import useEnvStore from "~~/utils/store/envStore";
 
 // const Droppable = dynamic(
@@ -133,6 +133,12 @@ export default function GameCard() {
     // console.log(result)
   }, []);
 
+  async function testCreateMockCharacters() {
+    await createMockCharacters(process.env.NEXT_PUBLIC_GAME1_ADDRESS, process.env.NEXT_PUBLIC_GAME2_ADDRESS, process.env.NEXT_PUBLIC_1155_ADDRESS);
+
+    // setMockCharacters(true);
+  }
+
   return (
     <>
       <Typography
@@ -190,9 +196,16 @@ export default function GameCard() {
                 )}
               </Droppable>
             ))}
-            <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
-              +
-            </Paper>
+            {
+              characterTBAArr.length > 0 ?
+                <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
+                  +
+                </Paper>
+                :
+                <Paper component={ButtonBase} onClick={testCreateMockCharacters}>
+                  Create Mock Game Characters
+                </Paper>
+            }
           </>
         ) : (
           <Paper className="typo" elevation={0}>
