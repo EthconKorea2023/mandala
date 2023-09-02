@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useMandalaStore } from "../utils/mandalaStore";
-import "@Biconomy/web3-auth/dist/src/style.css";
-// import "@Biconomy/web3-auth/dist/src/style.css";
 import { BiconomySmartAccount, BiconomySmartAccountConfig, DEFAULT_ENTRYPOINT_ADDRESS } from "@biconomy/account";
 import { Bundler, IBundler } from "@biconomy/bundler";
 import { ChainId } from "@biconomy/core-types";
 import { BiconomyPaymaster, IPaymaster } from "@biconomy/paymaster";
 import SocialLogin from "@biconomy/web3-auth";
+import "@biconomy/web3-auth/dist/src/style.css";
 import { Button, CircularProgress } from "@mui/material";
 import { ethers } from "ethers";
 import type { NextPage } from "next";
@@ -55,11 +54,13 @@ const Test: NextPage = () => {
       const socialLoginSDK = new SocialLogin();
       //TODO: also add the deployment url to the whitelist
       const signature1 = await socialLoginSDK.whitelistUrl("http://localhost:3000/");
+      const signature2 = await socialLogin.whitelistUrl('https://nextjs-8wwoaguwl-chunghosuk.vercel.app');
       await socialLoginSDK.init({
         chainId: ethers.utils.hexValue(ChainId.LINEA_TESTNET).toString(),
         network: "testnet",
         whitelistUrls: {
           "http://localhost:3000/": signature1,
+          'https://nextjs-8wwoaguwl-chunghosuk.vercel.app': signature2,
         },
       });
       sdkRef.current = socialLoginSDK;
