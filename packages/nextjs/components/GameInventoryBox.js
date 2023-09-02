@@ -23,6 +23,7 @@ const StyledBox = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
   padding: theme.spacing(0.5),
+  height: 332,
   "@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px))": {
     WebkitBackdropFilter: "blur(15px)",
     backdropFilter: "blur(15px)",

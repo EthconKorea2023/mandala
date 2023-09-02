@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import R3FZone from "./R3FZone";
 import { Paper, paperClasses, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -16,12 +17,13 @@ const StyledInventoryWrapper = styled("div")(({ theme }) => ({
     width: 332,
     position: "absolute",
     left: theme.spacing(10),
-    height: "100%",
+    height: "calc(100% - 240px)",
     display: "flex",
-    alignItems: "flex-start",
-    justifyContents: "center",
+    alignItems: "center",
+    justifyContent: "center",
     paddingTop: theme.spacing(3),
     zIndex: 1,
+    flexDirection: "column",
   },
   [`& > .${paperClasses.root}.character`]: {
     position: "absolute",
@@ -37,7 +39,7 @@ const StyledInventoryWrapper = styled("div")(({ theme }) => ({
 
 export default function GameInventory() {
   const selectedGame = useEvnStore(state => state.selectedGame);
-  return (
+  return selectedGame !== undefined ? (
     <StyledInventoryWrapper>
       <div className="invenzone">
         <GameInventoryBox />
@@ -47,5 +49,7 @@ export default function GameInventory() {
         <div className="gradient" />
       </Paper>
     </StyledInventoryWrapper>
+  ) : (
+    <Fragment />
   );
 }

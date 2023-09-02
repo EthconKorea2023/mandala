@@ -11,11 +11,11 @@ import { useMandalaStore } from "~~/utils/mandalaStore";
 
 const StyledDiv = styled("div")(({ theme }) => ({
   width: "100%",
-  height: "calc(100% - 64px)",
+  height: "100%",
   display: "flex",
   flexDirection: "column",
-  position: "absolute",
-  top: 64,
+  // position: "absolute",
+  // top: 64,
 }));
 
 // const DragDropContext = dynamic(

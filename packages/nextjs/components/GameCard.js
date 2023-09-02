@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 // import dynamic from "next/dynamic";
-import { ButtonBase, Paper, paperClasses, styled } from "@mui/material";
+import { ButtonBase, Paper, Typography, paperClasses, styled } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import clsx from "clsx";
+import { motion as m } from "framer-motion";
 import { List } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
 import useEnvStore from "~~/utils/store/envStore";
@@ -12,15 +15,39 @@ import useEnvStore from "~~/utils/store/envStore";
 //     }),
 //   { ssr: false },
 // );
-const StyledCardGameWrapper = styled("div")(({ theme }) => ({
+const StyledCardGameWrapper = styled(Paper)(({ theme }) => ({
   width: "100%",
   height: 240,
   display: "inline-flex",
   zIndex: 1,
+  padding: theme.spacing(2, 0),
+  backgroundImage: "unset",
+  "@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px))": {
+    WebkitBackdropFilter: "blur(15px)",
+    backdropFilter: "blur(15px)",
+    backgroundColor: `${grey[900]}4D`,
+    // border: `1px solid ${grey[900]}`,
+  },
   [`& > .${paperClasses.root}`]: {
-    width: 180,
+    width: 160,
     margin: theme.spacing(0, 1),
     position: "relative",
+    overflow: "hidden",
+  },
+  [`&.not-selected`]: {
+    height: 240,
+    position: "absolute",
+    top: "calc(50vh - 120px)",
+    padding: theme.spacing(2, 5),
+    [`& > .${paperClasses.root}`]: {
+      width: 160,
+      [`&.typo`]: {
+        backgroundColor: "transparent",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    },
   },
 }));
 
@@ -55,30 +82,47 @@ export default function GameCard() {
   }, []);
 
   return (
-    <StyledCardGameWrapper>
-      {gameList.map((_game, _idx) => (
-        <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
-          {(provided, snapshot) => (
-            <Paper
-              component={_idx === selectedGame ? undefined : ButtonBase}
-              data-item={_idx}
-              onClick={handleClick}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              style={{
-                backgroundImage: `url(${_game.image})`,
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <div style={{ background: "#00000033", position: "absolute", inset: 0 }} />
-              {_game.name}
-              {provided.placeholder}
-            </Paper>
-          )}
-        </Droppable>
-      ))}
-    </StyledCardGameWrapper>
+    <>
+      <StyledCardGameWrapper
+        component={m.div}
+        elevation={10}
+        className={clsx(selectedGame === undefined && "not-selected")}
+        layout
+      >
+        {selectedGame === undefined && (
+          <Paper className="typo" elevation={0}>
+            <Typography variant="h6" component={m.h6}>
+              Games
+            </Typography>
+          </Paper>
+        )}
+        {gameList.map((_game, _idx) => (
+          <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
+            {(provided, snapshot) => (
+              <Paper
+                component={_idx === selectedGame ? undefined : ButtonBase}
+                data-item={_idx}
+                onClick={handleClick}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                style={{
+                  backgroundImage: `url(${_game.image})`,
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                }}
+              >
+                <div style={{ background: "#00000033", position: "absolute", inset: 0 }} />
+                {_game.name}
+                {provided.placeholder}
+              </Paper>
+            )}
+          </Droppable>
+        ))}
+        <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
+          +
+        </Paper>
+      </StyledCardGameWrapper>
+    </>
   );
 }
