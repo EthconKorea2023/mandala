@@ -91,10 +91,15 @@ export default function Root() {
   return (
     <StyledDiv>
       {isLogin ? (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <GameCard />
-          <GameInventory />
-        </DragDropContext>
+        <>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <GameCard />
+            <GameInventory />
+          </DragDropContext>
+          <div style={{ position: "absolute", right: 0, top: 0, zIndex: 9999 }}>
+            <BiconomyButton />
+          </div>
+        </>
       ) : (
         <div
           style={{

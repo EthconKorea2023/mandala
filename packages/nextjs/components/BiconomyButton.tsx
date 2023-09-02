@@ -7,10 +7,10 @@ import { Bundler, IBundler } from "@biconomy/bundler";
 import { ChainId } from "@biconomy/core-types";
 import { BiconomyPaymaster, IPaymaster } from "@biconomy/paymaster";
 import SocialLogin from "@biconomy/web3-auth";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { ethers } from "ethers";
 import type { NextPage } from "next";
-
+import useEnvStore from "~~/utils/store/envStore";
 
 console.log(ChainId.LINEA_TESTNET);
 
@@ -26,14 +26,17 @@ const paymaster: IPaymaster = new BiconomyPaymaster({
 });
 
 const Test: NextPage = () => {
-  const [smartAccount, setSmartAccount] = useState<any>(null);
+  // const [smartAccount, setSmartAccount] = useState<any>(null);
   const [interval, enableInterval] = useState(false);
   const sdkRef = useRef<SocialLogin | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [provider, setProvider] = useState<any>(null);
   const [address, setAddress] = useState<string>("");
 
-  const setBiconomySmartAccount = useMandalaStore(state => state.setBiconomySmartAccount);
+  const [smartAccount, setSmartAccount] = useMandalaStore(state => [
+    state.biconomySmartAccount,
+    state.setBiconomySmartAccount,
+  ]);
 
   useEffect(() => {
     let configureLogin: any;
@@ -87,7 +90,7 @@ const Test: NextPage = () => {
       biconomySmartAccount = await biconomySmartAccount.init();
       setAddress(await biconomySmartAccount.getSmartAccountAddress());
       setSmartAccount(biconomySmartAccount);
-      setBiconomySmartAccount(biconomySmartAccount);
+      // setBiconomySmartAccount(biconomySmartAccount);
       console.log(biconomySmartAccount);
       setLoading(false);
     } catch (err) {
@@ -98,12 +101,14 @@ const Test: NextPage = () => {
   const logout = async () => {
     if (!sdkRef.current) {
       console.error("Web3Modal not initialized.");
-      return;
+      // return;
+    } else {
+      await sdkRef.current.logout();
+      sdkRef.current.hideWallet();
     }
-    await sdkRef.current.logout();
-    sdkRef.current.hideWallet();
     setSmartAccount(null);
     setAddress("");
+    useEnvStore.getState().clear();
     enableInterval(false);
   };
 
@@ -118,6 +123,7 @@ const Test: NextPage = () => {
         <Button
           color="primary"
           variant="contained"
+          disabled={loading}
           sx={
             {
               // backgroundColor: "red",
@@ -125,10 +131,12 @@ const Test: NextPage = () => {
           }
           onClick={login}
         >
-          Connect to Web3
+          {loading ? <CircularProgress size={36} /> : "Login"}
         </Button>
       ) : (
-        <Button onClick={logout}>Logout</Button>
+        <Button onClick={logout} variant="contained">
+          Logout
+        </Button>
       )}
     </>
   );
