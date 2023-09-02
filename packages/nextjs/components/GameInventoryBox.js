@@ -1,6 +1,6 @@
 import { createRef, useEffect, useMemo, useState } from "react";
 // import dynamic from "next/dynamic";
-import { Box, Paper, paperClasses, styled } from "@mui/material";
+import { Box, ListItemText, Paper, paperClasses, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { createPortal } from "react-dom";
@@ -19,6 +19,20 @@ import { createPortal } from "react-dom";
 //     }),
 //   { ssr: false },
 // );
+const StyledListItemText = styled(ListItemText)(({ theme }) => ({
+  height: 56,
+  width: "100%",
+  flex: 0,
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[1],
+  padding: theme.spacing(1),
+  "@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px))": {
+    WebkitBackdropFilter: "blur(15px)",
+    backdropFilter: "blur(15px)",
+    backgroundColor: `${grey[900]}66`,
+    // border: `1px solid ${grey[900]}`,
+  },
+}));
 const StyledBox = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
@@ -90,40 +104,43 @@ export default function GameInventoryBox() {
     };
   }, []);
   return (
-    <Droppable droppableId="inven" key={`gmae-in}`}>
-      {(provided, snapshot) => (
-        <StyledBox ref={provided.innerRef} elevation={10} {...provided.droppableProps}>
-          {items.map((_item, _idx) =>
-            _item ? (
-              <Draggable draggableId={_item.name} index={_idx} key={_item.name}>
-                {(provided, snapshot) =>
-                  _optionalPortal(
-                    provided.draggableProps.style,
-                    <Paper ref={provided.innerRef} {...provided.draggableProps}>
-                      <div
-                        {...provided.dragHandleProps}
-                        style={{
-                          backgroundImage: `url(${_item.image})`,
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                          backgroundRepeat: "no-repeat",
-                          width: "100%",
-                          height: "100%",
-                        }}
-                      >
-                        {/* {_item.name} */}
-                      </div>
-                    </Paper>,
-                  )
-                }
-              </Draggable>
-            ) : (
-              <Paper key={_idx} />
-            ),
-          )}
-          {provided.placeholder}
-        </StyledBox>
-      )}
-    </Droppable>
+    <>
+      <StyledListItemText primary="aaa" secondary="bbb" />
+      <Droppable droppableId="inven" key={`gmae-in}`}>
+        {(provided, snapshot) => (
+          <StyledBox ref={provided.innerRef} elevation={10} {...provided.droppableProps}>
+            {items.map((_item, _idx) =>
+              _item ? (
+                <Draggable draggableId={_item.name} index={_idx} key={_item.name}>
+                  {(provided, snapshot) =>
+                    _optionalPortal(
+                      provided.draggableProps.style,
+                      <Paper ref={provided.innerRef} {...provided.draggableProps}>
+                        <div
+                          {...provided.dragHandleProps}
+                          style={{
+                            backgroundImage: `url(${_item.image})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                            backgroundRepeat: "no-repeat",
+                            width: "100%",
+                            height: "100%",
+                          }}
+                        >
+                          {/* {_item.name} */}
+                        </div>
+                      </Paper>,
+                    )
+                  }
+                </Draggable>
+              ) : (
+                <Paper key={_idx} />
+              ),
+            )}
+            {provided.placeholder}
+          </StyledBox>
+        )}
+      </Droppable>
+    </>
   );
 }
