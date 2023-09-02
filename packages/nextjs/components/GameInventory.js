@@ -1,6 +1,9 @@
+'use client'
 import { Paper, paperClasses, styled } from "@mui/material";
 // import { shallow } from "zustand/shallow";
 import useEvnStore from "~~/utils/store/envStore";
+
+import R3FZone from "./R3FZone";
 
 const StyledInventoryWrapper = styled("div")(({ theme }) => ({
   width: "100%",
@@ -17,7 +20,9 @@ export default function GameInventory() {
   return (
     <StyledInventoryWrapper>
       <Paper className="invenzone">inven</Paper>
-      <Paper className="Character">r3fzone</Paper>
+      <Paper className="Character">
+        <R3FZone />
+      </Paper>
     </StyledInventoryWrapper>
   );
 }

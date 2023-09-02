@@ -24,17 +24,11 @@ const AppBarDynamic = dynamic(() => import("~~/components/Appbar"), {
 });
 
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
-  const price = useNativeCurrencyPrice();
-  const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
-  // This variable is required for initial client side rendering of correct theme for RainbowKit
+
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const { isDarkMode } = useDarkMode();
 
-  useEffect(() => {
-    if (price > 0) {
-      setNativeCurrencyPrice(price);
-    }
-  }, [setNativeCurrencyPrice, price]);
+
 
   useEffect(() => {
     setIsDarkTheme(isDarkMode);
