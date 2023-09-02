@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { SmartAccount } from "@biconomy/account";
 // import dynamic from "next/dynamic";
 import {
@@ -154,35 +154,39 @@ export default function GameCard() {
         )}
         {Array.isArray(characterTBAArr) ? (
           <>
-            {gameList.map((_game, _idx) => (
-              <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
-                {(provided, snapshot) => (
-                  <Paper
-                    component={_idx === selectedGame ? undefined : ButtonBase}
-                    data-item={_idx}
-                    onClick={handleClick}
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={{
-                      backgroundImage: `url(${_game.image})`,
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                    }}
-                  >
-                    <div
+            {gameList.map((_game, _idx) =>
+              _idx !== selectedGame ? (
+                <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
+                  {(provided, snapshot) => (
+                    <Paper
+                      component={ButtonBase}
+                      data-item={_idx}
+                      onClick={handleClick}
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
                       style={{
-                        background: "#00000033",
-                        position: "absolute",
-                        inset: 0,
+                        backgroundImage: `url(${_game.image})`,
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
                       }}
-                    />
-                    <Typography variant="caption">{_game.name}</Typography>
-                    {provided.placeholder}
-                  </Paper>
-                )}
-              </Droppable>
-            ))}
+                    >
+                      <div
+                        style={{
+                          background: "#00000033",
+                          position: "absolute",
+                          inset: 0,
+                        }}
+                      />
+                      <Typography variant="caption">{_game.name}</Typography>
+                      {provided.placeholder}
+                    </Paper>
+                  )}
+                </Droppable>
+              ) : (
+                <Fragment />
+              ),
+            )}
             <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
               +
             </Paper>
