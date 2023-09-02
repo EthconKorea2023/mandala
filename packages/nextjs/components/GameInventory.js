@@ -1,3 +1,6 @@
+"use client";
+
+import R3FZone from "./R3FZone";
 import { Paper, paperClasses, styled } from "@mui/material";
 import GameInventoryBox from "~~/components/GameInventoryBox";
 // import { shallow } from "zustand/shallow";
@@ -20,7 +23,9 @@ export default function GameInventory() {
       <Paper className="invenzone">
         <GameInventoryBox />
       </Paper>
-      <Paper className="Character">r3fzone</Paper>
+      <Paper className="Character">
+        <R3FZone />
+      </Paper>
     </StyledInventoryWrapper>
   );
 }
