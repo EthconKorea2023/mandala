@@ -98,7 +98,7 @@ export default function GameCard() {
       console.log(tokenURIarr);
       setCharacterTokenURIArr([...tokenURIarr]);
 
-      if(TBAarr.length === 0) return;
+      if (TBAarr.length === 0) return;
 
       const isGollumOwnTheRing = await isOwnRing(TBAarr[0]);
       const isSampleCharacterOwnTheRing = await isOwnRing(TBAarr[1]);
@@ -128,9 +128,9 @@ export default function GameCard() {
             </Typography>
           </Paper>
         )}
-        {characterTBAArr.length > 0 ? (
-          gameList.map((_game, _idx) => (
-            <>
+        {Array.isArray(characterTBAArr) ? (
+          <>
+            {gameList.map((_game, _idx) => (
               <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
                 {(provided, snapshot) => (
                   <Paper
@@ -158,11 +158,11 @@ export default function GameCard() {
                   </Paper>
                 )}
               </Droppable>
-              <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
-                +
-              </Paper>
-            </>
-          ))
+            ))}
+            <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
+              +
+            </Paper>
+          </>
         ) : (
           <Paper className="typo" elevation={0}>
             <CircularProgress />

@@ -4,7 +4,7 @@ export default create(set => ({
   selectedGame: undefined,
   setGame: v => set({ selectedGame: v }),
 
-  characterTBAArr: [],
+  characterTBAArr: undefined,
   setCharacterTBAArr: v => set({ characterTBAArr: v }),
 
   characterTokenURIArr: [],
