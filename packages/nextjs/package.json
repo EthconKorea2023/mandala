@@ -14,6 +14,13 @@
     "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true"
   },
   "dependencies": {
+    "@biconomy/account": "^3.1.2-alpha.0",
+    "@biconomy/bundler": "^3.1.2-alpha.0",
+    "@biconomy/common": "^3.1.2-alpha.0",
+    "@biconomy/core-types": "^3.1.2-alpha.0",
+    "@biconomy/particle-auth": "^3.0.1-alpha.0",
+    "@biconomy/paymaster": "^3.1.2-alpha.0",
+    "@biconomy/web3-auth": "latest",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.7.2",
@@ -27,6 +34,7 @@
     "daisyui": "^3.5.1",
     "framer-motion": "^10.16.2",
     "immutable": "^5.0.0-beta.4",
+    "ethers": "5.7.2",
     "next": "^13.1.6",
     "nextjs-progressbar": "^0.0.16",
     "qrcode.react": "^3.1.0",

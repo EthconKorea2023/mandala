@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import dynamic from "next/dynamic";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import NextNProgress from "nextjs-progressbar";
@@ -17,6 +18,10 @@ import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/globals.css";
 import theme from "~~/theme";
+
+const AppBarDynamic = dynamic(() => import("~~/components/Appbar"), {
+  ssr: false,
+});
 
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   const price = useNativeCurrencyPrice();
@@ -47,6 +52,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
         >
           <div id="root">
             {/* <Header /> */}
+            <AppBarDynamic />
             <main>
               <Component {...pageProps} />
             </main>
