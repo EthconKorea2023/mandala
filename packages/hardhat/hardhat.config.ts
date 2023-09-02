@@ -42,6 +42,10 @@ const config: HardhatUserConfig = {
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
     },
+    linea: {
+      url: "https://linea-goerli.infura.io/v3/ca00b968b9834974a18d5a892796a7f9",
+      accounts: deployerPrivateKey ? [deployerPrivateKey] : [],
+    },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
