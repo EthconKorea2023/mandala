@@ -8,6 +8,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 import GameCard from "~~/components/GameCard";
 import GameInventory from "~~/components/GameInventory";
 import { useMandalaStore } from "~~/utils/mandalaStore";
+import useEnvStore from "~~/utils/store/envStore";
+import { transferOneRing } from "~~/utils/mandala/utils";
 
 const StyledDiv = styled("div")(({ theme }) => ({
   width: "100%",
@@ -30,6 +32,9 @@ export default function Root() {
   const [enabled, setEnabled] = useState(false);
   const isLogin = useMandalaStore(state => state.biconomySmartAccount);
 
+  const [selectedGame, setGame] = useEnvStore(state => [state.selectedGame, state.setGame]);
+  const [characterTBAArr, setCharacterTBAArr] = useEnvStore(state => [state.characterTBAArr, state.setCharacterTBAArr]);
+
   useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true));
 
@@ -42,7 +47,7 @@ export default function Root() {
   if (!enabled) {
     return null;
   }
-  function handleDragEnd(result) {
+  async function handleDragEnd(result) {
     console.log(result);
     if (!result.destination) {
       return;
@@ -62,6 +67,26 @@ export default function Root() {
     //   saveFile(`${workDir.graphPath}/fbrc/fbrcList.json`, JSON.stringify(reorderedList.toJSON()));
     //   return reorderedList;
     // });
+
+    if (result.destination.droppableId === "inven") {
+      return
+    }
+
+    // one ring 옮겨주기
+
+    const currenSelectedTBA = characterTBAArr[selectedGame]
+    console.log(currenSelectedTBA)
+
+    console.log(result.destination.droppableId)
+
+    if (result.destination.droppableId === currenSelectedTBA) {
+      console.log("same")
+      return
+    } else {
+      const txDetail = await transferOneRing(currenSelectedTBA, result.destination.droppableId)
+      console.log(txDetail)
+    }
+
   }
   return (
     <StyledDiv>

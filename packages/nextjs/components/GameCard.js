@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import dynamic from "next/dynamic";
 import { ButtonBase, Paper, paperClasses, styled } from "@mui/material";
-import { List } from "immutable";
+import { List, set } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
 import useEnvStore from "~~/utils/store/envStore";
 import { getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
@@ -45,6 +45,12 @@ export default function GameCard() {
     },
   ]);
 
+  // const [characterTBAArr, setCharacterTBAArr] = useState([])
+  // const [characterTokenURIArr, setCharacterTokenURIArr] = useState([])
+
+  const [characterTBAArr, setCharacterTBAArr] = useEnvStore(state => [state.characterTBAArr, state.setCharacterTBAArr]);
+  const [characterTokenURIArr, setCharacterTokenURIArr] = useEnvStore(state => [state.characterTokenURIArr, state.setCharacterTokenURIArr]);
+
   function handleClick(e) {
     const { item } = e.currentTarget.dataset ?? {};
     if (item === undefined) return;
@@ -59,9 +65,11 @@ export default function GameCard() {
     async function getDatas() {
       const TBAarr = await getTBAForEachCharacter()
       console.log(TBAarr)
+      setCharacterTBAArr([...TBAarr])
 
       const tokenURIarr = await getTokenURIForEachCharacter()
       console.log(tokenURIarr)
+      setCharacterTokenURIArr([...tokenURIarr])
 
       const isGollumOwnTheRing = await isOwnRing(TBAarr[0])
       const isSampleCharacterOwnTheRing = await isOwnRing(TBAarr[1])
@@ -80,8 +88,8 @@ export default function GameCard() {
 
   return (
     <StyledCardGameWrapper>
-      {gameList.map((_game, _idx) => (
-        <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
+      {characterTBAArr.length > 0 ? gameList.map((_game, _idx) => (
+        <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
           {(provided, snapshot) => (
             <Paper
               component={_idx === selectedGame ? undefined : ButtonBase}
@@ -102,7 +110,9 @@ export default function GameCard() {
             </Paper>
           )}
         </Droppable>
-      ))}
+      )) :
+        <div>loading...</div>
+      }
     </StyledCardGameWrapper>
   );
 }
