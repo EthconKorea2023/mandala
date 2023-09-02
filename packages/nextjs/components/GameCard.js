@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
+// import dynamic from "next/dynamic";
 import { Paper, styled } from "@mui/material";
 import { List } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
 
+// const Droppable = dynamic(
+//   () =>
+//     import("react-beautiful-dnd").then(mod => {
+//       return mod.Droppable;
+//     }),
+//   { ssr: false },
+// );
 const StyledCardGameWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   height: 240,
@@ -10,6 +18,7 @@ const StyledCardGameWrapper = styled("div")(({ theme }) => ({
   [`& > div`]: {
     width: 180,
     margin: theme.spacing(0, 1),
+    position: "relative",
   },
 }));
 
@@ -40,8 +49,19 @@ export default function GameCard() {
       {gameList.map((_game, _idx) => (
         <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
           {(provided, snapshot) => (
-            <Paper ref={provided.innerRef} {...provided.droppableProps}>
+            <Paper
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              style={{
+                backgroundImage: `url(${_game.image})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+            >
+              <div style={{ background: "#00000033", position: "absolute", inset: 0 }} />
               {_game.name}
+              {provided.placeholder}
             </Paper>
           )}
         </Droppable>

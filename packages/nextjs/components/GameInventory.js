@@ -1,4 +1,5 @@
 import { Paper, paperClasses, styled } from "@mui/material";
+import GameInventoryBox from "~~/components/GameInventoryBox";
 // import { shallow } from "zustand/shallow";
 import useEvnStore from "~~/utils/store/envStore";
 
@@ -16,7 +17,9 @@ export default function GameInventory() {
   const selectedGame = useEvnStore(state => state.selectedGame);
   return (
     <StyledInventoryWrapper>
-      <Paper className="invenzone">inven</Paper>
+      <Paper className="invenzone">
+        <GameInventoryBox />
+      </Paper>
       <Paper className="Character">r3fzone</Paper>
     </StyledInventoryWrapper>
   );
