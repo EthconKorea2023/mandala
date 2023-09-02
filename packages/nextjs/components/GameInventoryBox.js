@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { createRef, useEffect, useMemo, useState } from "react";
 // import dynamic from "next/dynamic";
 import { Box, Paper, paperClasses, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -19,14 +19,28 @@ import { createPortal } from "react-dom";
 //     }),
 //   { ssr: false },
 // );
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
-  padding: theme.spacing(1),
+  padding: theme.spacing(0.5),
+  "@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px))": {
+    WebkitBackdropFilter: "blur(15px)",
+    backdropFilter: "blur(15px)",
+    backgroundColor: `${grey[900]}4D`,
+    // border: `1px solid ${grey[900]}`,
+  },
   [`& > div.${paperClasses.root}`]: {
     width: 100,
     height: 100,
-    backgroundColor: grey[900],
+    // backgroundColor: grey[900],
+    margin: theme.spacing(0.5),
+    "@supports (backdrop-filter: blur(3px)) or (-webkit-backdrop-filter: blur(3px))": {
+      WebkitBackdropFilter: "blur(15px)",
+      backdropFilter: "blur(15px)",
+      // backgroundColor: `${grey[900]}99`,
+      backgroundColor: "transparent",
+      border: `1px solid ${grey[900]}`,
+    },
     overflow: "hidden",
     [`& > div`]: {
       width: "100%",
@@ -34,13 +48,13 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
   },
 }));
-
-// function _optionalPortal(styles, element) {
-//   if (styles.position === "fixed") {
-//     return createPortal(element, _portal.current);
-//   }
-//   return element;
-// }
+const _portal = createRef();
+function _optionalPortal(styles, element) {
+  if (styles.position === "fixed") {
+    return createPortal(element, _portal.current);
+  }
+  return element;
+}
 
 export default function GameInventoryBox() {
   const [rawItems, setItems] = useState([
@@ -63,29 +77,44 @@ export default function GameInventoryBox() {
   useEffect(() => {
     // // Fetching Items from chain by game
     // setItems()
+    const _portalIn = document.createElement("div");
+    _portalIn.style = "position: absolute; pointer-events: none; height: 100%; width: 100%";
+
+    document.body.appendChild(_portalIn);
+
+    _portal.current = _portalIn;
+
+    return () => {
+      document.body.removeChild(_portalIn);
+    };
   }, []);
   return (
     <Droppable droppableId="inven" key={`gmae-in}`}>
       {(provided, snapshot) => (
-        <StyledBox ref={provided.innerRef} {...provided.droppableProps}>
+        <StyledBox ref={provided.innerRef} elevation={10} {...provided.droppableProps}>
           {items.map((_item, _idx) =>
             _item ? (
               <Draggable draggableId={_item.name} index={_idx} key={_item.name}>
-                {(provided, snapshot) => (
-                  <Paper ref={provided.innerRef} {...provided.draggableProps}>
-                    <div
-                      {...provided.dragHandleProps}
-                      style={{
-                        backgroundImage: `url(${_item.image})`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    >
-                      {/* {_item.name} */}
-                    </div>
-                  </Paper>
-                )}
+                {(provided, snapshot) =>
+                  _optionalPortal(
+                    provided.draggableProps.style,
+                    <Paper ref={provided.innerRef} {...provided.draggableProps}>
+                      <div
+                        {...provided.dragHandleProps}
+                        style={{
+                          backgroundImage: `url(${_item.image})`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        {/* {_item.name} */}
+                      </div>
+                    </Paper>,
+                  )
+                }
               </Draggable>
             ) : (
               <Paper key={_idx} />

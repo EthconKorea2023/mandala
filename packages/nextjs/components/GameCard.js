@@ -16,6 +16,7 @@ const StyledCardGameWrapper = styled("div")(({ theme }) => ({
   width: "100%",
   height: 240,
   display: "inline-flex",
+  zIndex: 1,
   [`& > .${paperClasses.root}`]: {
     width: 180,
     margin: theme.spacing(0, 1),
