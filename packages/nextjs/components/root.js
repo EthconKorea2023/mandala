@@ -2,10 +2,12 @@
 
 // import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { styled } from "@mui/material";
+import BiconomyButton from "./BiconomyButton";
+import { Typography, styled } from "@mui/material";
 import { DragDropContext } from "react-beautiful-dnd";
 import GameCard from "~~/components/GameCard";
 import GameInventory from "~~/components/GameInventory";
+import { useMandalaStore } from "~~/utils/mandalaStore";
 
 const StyledDiv = styled("div")(({ theme }) => ({
   width: "100%",
@@ -26,6 +28,7 @@ const StyledDiv = styled("div")(({ theme }) => ({
 
 export default function Root() {
   const [enabled, setEnabled] = useState(false);
+  const isLogin = useMandalaStore(state => state.biconomySmartAccount);
 
   useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true));
@@ -62,10 +65,27 @@ export default function Root() {
   }
   return (
     <StyledDiv>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <GameCard />
-        <GameInventory />
-      </DragDropContext>
+      {isLogin ? (
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <GameCard />
+          <GameInventory />
+        </DragDropContext>
+      ) : (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h1">Mandala</Typography>
+          <Typography variant="h5">the blablabla</Typography>
+          <BiconomyButton />
+        </div>
+      )}
     </StyledDiv>
   );
 }
