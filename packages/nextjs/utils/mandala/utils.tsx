@@ -140,12 +140,12 @@ export async function transferOneRing(from, to) {
   return transactionDetails;
 }
 
-export async function fetchCharacters() {
-  const smartAccount = useMandalaStore.getState().biconomySmartAccount;
+export async function whoHasTheOneRing() {
+  const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
+  const signer = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY, customProvider);
   // Connect to the contract using the contract address and the ABI
-  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, smartAccount.provider);
+  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, signer);
 
-  const address = smartAccount.address; // The address you want to check
   const tokenId = 0; // The token id you want to check
 
   const [TBAAddress1, TBAAddress2] = await getTokenIDArrayForEachContract();
@@ -160,7 +160,19 @@ export async function fetchCharacters() {
   console.log(`${TBAAddress2} : ${balance2.toNumber()}`);
 }
 
-export async function getTokenIDArrayForEachContract() {
+export async function isOwnRing(TBAAddress) {
+  const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
+  const signer = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY, customProvider);
+  // const smartAccount = useMandalaStore.getState().biconomySmartAccount;
+  // Connect to the contract using the contract address and the ABI
+  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, signer);
+
+  const balance = await contract.balanceOf(TBAAddress, 0);
+
+  return balance.toNumber() > 0;
+}
+
+export async function getTBAForEachCharacter() {
   const smartAccount = useMandalaStore.getState().biconomySmartAccount;
   //get my token id
   const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
@@ -212,7 +224,7 @@ export async function test() {
   console.log(tokenURI);
 }
 
-export async function getMockCharactersTokenURI() {
+export async function getTokenURIForEachCharacter() {
   // get token uri of 721
   const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
   const signer = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY, customProvider);

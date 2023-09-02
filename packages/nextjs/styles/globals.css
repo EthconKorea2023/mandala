@@ -1,32 +1,13 @@
-/* @import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities"; */
-
-:root,
-[data-theme] {
-  background: hsl(var(--b2));
-}
-
 body {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  margin-bottom: 0.5rem;
-  line-height: 1;
-}
-
-p {
-  margin: 1rem 0;
-}
-
-.btn {
-  @apply shadow-md;
-}
-
-.btn.btn-ghost {
-  @apply shadow-none;
+body > #__next,
+body > #__next > div,
+body > #__next > div > #root,
+body > #__next > div > #root > main {
+  height: 100%;
+  width: 100%;
 }

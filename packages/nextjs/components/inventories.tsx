@@ -2,15 +2,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Box, Button } from "@mui/material";
-import axios from "axios";
-import { ethers } from "ethers";
 import {
-  createMockCharacters,
-  fetchCharacters,
-  getMockCharactersTokenURI,
-  getTokenIDArrayForEachContract,
-  test,
-  transferOneRing,
+  createMockCharacters, // mock data 생성할때
+  getTBAForEachCharacter, // 생성된 캐릭터들의 TBA 지갑 주소를 배열로
+  getTokenURIForEachCharacter, // 생성된 캐릭터들의 토큰 URI를 배열로
+  transferOneRing,  // 원링을 전송하는 함수
+  whoHasTheOneRing, // 원링을 가지고 있는지 확인하는 함수
 } from "~~/utils/mandala/utils";
 import { useMandalaStore } from "~~/utils/mandalaStore";
 
@@ -30,7 +27,7 @@ export default function Inventories() {
   // let TBAAddress2 = "0xC9F0DDB7cE32F9048059012D4679653754433827";
 
   async function testTransferOneRing() {
-    const [TBAAddress1, TBAAddress2] = await getTokenIDArrayForEachContract();
+    const [TBAAddress1, TBAAddress2] = await getTBAForEachCharacter();
 
     const result = await transferOneRing(`${TBAAddress1}`, `${TBAAddress2}`);
     // const result = await transferOneRing(`${TBAAddress2}`, `${TBAAddress1}`);
@@ -45,17 +42,17 @@ export default function Inventories() {
   }
 
   async function test() {
-    const tmp = await getMockCharactersTokenURI();
+    const tmp = await getTokenURIForEachCharacter();
 
     console.log(tmp);
   }
 
   useEffect(() => {
     async function isCreatedMockData() {
-      const result = await getTokenIDArrayForEachContract();
+      const result = await getTBAForEachCharacter();
       console.log(result);
       if (result.length == 2) {
-        // setMockCharacters(true);
+        setMockCharacters(true);
       }
     }
     if (smartAccount) {
@@ -136,9 +133,9 @@ export default function Inventories() {
         }}
         variant="contained"
         color="primary"
-        onClick={fetchCharacters}
+        onClick={whoHasTheOneRing}
       >
-        Just Check
+        who has the one ring?
       </Button>
       <Button
         sx={{
