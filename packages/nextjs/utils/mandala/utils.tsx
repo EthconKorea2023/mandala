@@ -141,11 +141,11 @@ export async function transferOneRing(from, to) {
 }
 
 export async function whoHasTheOneRing() {
-  const smartAccount = useMandalaStore.getState().biconomySmartAccount;
+  const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
+  const signer = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY, customProvider);
   // Connect to the contract using the contract address and the ABI
-  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, smartAccount.provider);
+  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, signer);
 
-  const address = smartAccount.address; // The address you want to check
   const tokenId = 0; // The token id you want to check
 
   const [TBAAddress1, TBAAddress2] = await getTokenIDArrayForEachContract();
@@ -158,6 +158,18 @@ export async function whoHasTheOneRing() {
   const balance2 = await contract.balanceOf(TBAAddress2, tokenId);
 
   console.log(`${TBAAddress2} : ${balance2.toNumber()}`);
+}
+
+export async function isOwnRing(TBAAddress) {
+  const customProvider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_INFURA_LINEA);
+  const signer = new ethers.Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY, customProvider);
+  // const smartAccount = useMandalaStore.getState().biconomySmartAccount;
+  // Connect to the contract using the contract address and the ABI
+  const contract = new ethers.Contract(itemAddress, ERC1155OneRingABI.output.abi, signer);
+
+  const balance = await contract.balanceOf(TBAAddress, 0);
+
+  return balance.toNumber() > 0;
 }
 
 export async function getTBAForEachCharacter() {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { SmartAccount } from "@biconomy/account";
 // import dynamic from "next/dynamic";
 import { ButtonBase, Paper, Typography, paperClasses, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import clsx from "clsx";
 import { motion as m } from "framer-motion";
-import { List } from "immutable";
+import { List, set } from "immutable";
 import { Droppable } from "react-beautiful-dnd";
+import { getTBAForEachCharacter, getTokenURIForEachCharacter, isOwnRing } from "~~/utils/mandala/utils";
 import useEnvStore from "~~/utils/store/envStore";
 
 // const Droppable = dynamic(
@@ -52,6 +54,7 @@ const StyledCardGameWrapper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function GameCard() {
+  // const smartAccount =
   const [selectedGame, setGame] = useEnvStore(state => [state.selectedGame, state.setGame]);
   const [gameList, setGameList] = useState([
     {
@@ -69,6 +72,15 @@ export default function GameCard() {
     },
   ]);
 
+  // const [characterTBAArr, setCharacterTBAArr] = useState([])
+  // const [characterTokenURIArr, setCharacterTokenURIArr] = useState([])
+
+  const [characterTBAArr, setCharacterTBAArr] = useEnvStore(state => [state.characterTBAArr, state.setCharacterTBAArr]);
+  const [characterTokenURIArr, setCharacterTokenURIArr] = useEnvStore(state => [
+    state.characterTokenURIArr,
+    state.setCharacterTokenURIArr,
+  ]);
+
   function handleClick(e) {
     const { item } = e.currentTarget.dataset ?? {};
     if (item === undefined) return;
@@ -77,8 +89,26 @@ export default function GameCard() {
   }
 
   useEffect(() => {
+    async function getDatas() {
+      const TBAarr = await getTBAForEachCharacter();
+      console.log(TBAarr);
+      setCharacterTBAArr([...TBAarr]);
+
+      const tokenURIarr = await getTokenURIForEachCharacter();
+      console.log(tokenURIarr);
+      setCharacterTokenURIArr([...tokenURIarr]);
+
+      const isGollumOwnTheRing = await isOwnRing(TBAarr[0]);
+      const isSampleCharacterOwnTheRing = await isOwnRing(TBAarr[1]);
+
+      console.log(isGollumOwnTheRing);
+      console.log(isSampleCharacterOwnTheRing);
+    }
     // // Fetching 'game&character list' from chain
     // setGameList()
+    getDatas();
+
+    // console.log(result)
   }, []);
 
   return (
@@ -96,29 +126,40 @@ export default function GameCard() {
             </Typography>
           </Paper>
         )}
-        {gameList.map((_game, _idx) => (
-          <Droppable droppableId={_game.name} key={`gmae-${_idx}`}>
-            {(provided, snapshot) => (
-              <Paper
-                component={_idx === selectedGame ? undefined : ButtonBase}
-                data-item={_idx}
-                onClick={handleClick}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                style={{
-                  backgroundImage: `url(${_game.image})`,
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                }}
-              >
-                <div style={{ background: "#00000033", position: "absolute", inset: 0 }} />
-                {_game.name}
-                {provided.placeholder}
-              </Paper>
-            )}
-          </Droppable>
-        ))}
+        {characterTBAArr.length > 0 ? (
+          gameList.map((_game, _idx) => (
+            <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
+              {(provided, snapshot) => (
+                <Paper
+                  component={_idx === selectedGame ? undefined : ButtonBase}
+                  data-item={_idx}
+                  onClick={handleClick}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{
+                    backgroundImage: `url(${_game.image})`,
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "#00000033",
+                      position: "absolute",
+                      inset: 0,
+                    }}
+                  />
+                  {_game.name}
+                  {provided.placeholder}
+                </Paper>
+              )}
+            </Droppable>
+          ))
+        ) : (
+          <div>loading...</div>
+        )}
+
         <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
           +
         </Paper>
