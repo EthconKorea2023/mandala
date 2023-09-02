@@ -4,12 +4,13 @@
 import { useEffect, useState } from "react";
 import BiconomyButton from "./BiconomyButton";
 import { Typography, styled } from "@mui/material";
+import { motion as m } from "framer-motion";
 import { DragDropContext } from "react-beautiful-dnd";
 import GameCard from "~~/components/GameCard";
 import GameInventory from "~~/components/GameInventory";
+import { transferOneRing } from "~~/utils/mandala/utils";
 import { useMandalaStore } from "~~/utils/mandalaStore";
 import useEnvStore from "~~/utils/store/envStore";
-import { transferOneRing } from "~~/utils/mandala/utils";
 
 const StyledDiv = styled("div")(({ theme }) => ({
   width: "100%",
@@ -69,24 +70,23 @@ export default function Root() {
     // });
 
     if (result.destination.droppableId === "inven") {
-      return
+      return;
     }
 
     // one ring 옮겨주기
 
-    const currenSelectedTBA = characterTBAArr[selectedGame]
-    console.log(currenSelectedTBA)
+    const currenSelectedTBA = characterTBAArr[selectedGame];
+    console.log(currenSelectedTBA);
 
-    console.log(result.destination.droppableId)
+    console.log(result.destination.droppableId);
 
     if (result.destination.droppableId === currenSelectedTBA) {
-      console.log("same")
-      return
+      console.log("same");
+      return;
     } else {
-      const txDetail = await transferOneRing(currenSelectedTBA, result.destination.droppableId)
-      console.log(txDetail)
+      const txDetail = await transferOneRing(currenSelectedTBA, result.destination.droppableId);
+      console.log(txDetail);
     }
-
   }
   return (
     <StyledDiv>
@@ -106,7 +106,9 @@ export default function Root() {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h1">Mandala</Typography>
+          <Typography variant="h1" component={m.h1} layout layoutId="title">
+            Mandala
+          </Typography>
           <Typography variant="h5">the blablabla</Typography>
           <BiconomyButton />
         </div>

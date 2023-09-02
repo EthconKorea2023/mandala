@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { SmartAccount } from "@biconomy/account";
 // import dynamic from "next/dynamic";
-import { ButtonBase, CircularProgress, Paper, Typography, paperClasses, styled } from "@mui/material";
+import {
+  ButtonBase,
+  CircularProgress,
+  Paper,
+  Typography,
+  paperClasses,
+  styled,
+  typographyClasses,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import clsx from "clsx";
 import { motion as m } from "framer-motion";
@@ -35,6 +43,13 @@ const StyledCardGameWrapper = styled(Paper)(({ theme }) => ({
     margin: theme.spacing(0, 1),
     position: "relative",
     overflow: "hidden",
+    [`& > .${typographyClasses.caption}`]: {
+      position: "absolute",
+      bottom: 0,
+      width: "100%",
+      backgroundColor: grey[900],
+      padding: theme.spacing(1),
+    },
   },
   [`&.not-selected`]: {
     height: 240,
@@ -115,6 +130,15 @@ export default function GameCard() {
 
   return (
     <>
+      <Typography
+        variant="h1"
+        component={m.h1}
+        layout
+        layoutId="title"
+        style={{ position: "absolute", top: "calc(50vh - 240px)", textAlign: "end" }}
+      >
+        Mandala
+      </Typography>
       <StyledCardGameWrapper
         component={m.div}
         elevation={10}
@@ -153,7 +177,7 @@ export default function GameCard() {
                         inset: 0,
                       }}
                     />
-                    {_game.name}
+                    <Typography variant="caption">{_game.name}</Typography>
                     {provided.placeholder}
                   </Paper>
                 )}
