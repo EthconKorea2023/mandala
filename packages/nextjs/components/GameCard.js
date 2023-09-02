@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SmartAccount } from "@biconomy/account";
 // import dynamic from "next/dynamic";
-import { ButtonBase, Paper, Typography, paperClasses, styled } from "@mui/material";
+import { ButtonBase, CircularProgress, Paper, Typography, paperClasses, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import clsx from "clsx";
 import { motion as m } from "framer-motion";
@@ -128,41 +128,44 @@ export default function GameCard() {
         )}
         {characterTBAArr.length > 0 ? (
           gameList.map((_game, _idx) => (
-            <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
-              {(provided, snapshot) => (
-                <Paper
-                  component={_idx === selectedGame ? undefined : ButtonBase}
-                  data-item={_idx}
-                  onClick={handleClick}
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  style={{
-                    backgroundImage: `url(${_game.image})`,
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <div
+            <>
+              <Droppable droppableId={characterTBAArr[_idx]} key={`gmae-${_idx}`}>
+                {(provided, snapshot) => (
+                  <Paper
+                    component={_idx === selectedGame ? undefined : ButtonBase}
+                    data-item={_idx}
+                    onClick={handleClick}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
                     style={{
-                      background: "#00000033",
-                      position: "absolute",
-                      inset: 0,
+                      backgroundImage: `url(${_game.image})`,
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
                     }}
-                  />
-                  {_game.name}
-                  {provided.placeholder}
-                </Paper>
-              )}
-            </Droppable>
+                  >
+                    <div
+                      style={{
+                        background: "#00000033",
+                        position: "absolute",
+                        inset: 0,
+                      }}
+                    />
+                    {_game.name}
+                    {provided.placeholder}
+                  </Paper>
+                )}
+              </Droppable>
+              <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
+                +
+              </Paper>
+            </>
           ))
         ) : (
-          <div>loading...</div>
+          <Paper className="typo" elevation={0}>
+            <CircularProgress />
+          </Paper>
         )}
-
-        <Paper component={ButtonBase} onClick={() => setGame(undefined)}>
-          +
-        </Paper>
       </StyledCardGameWrapper>
     </>
   );
