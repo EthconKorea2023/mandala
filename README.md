@@ -2,6 +2,8 @@
 # Mandala : Ultimate Web3 Gaming Inventory
 A game dev who is unfamiliar with web3 can easily create web3 games using the inventory. It provides the best advertising experience that will satisfy gamers, game dev and advertisers alike.
 
+
+
 ## Video
 https://youtu.be/kxmdGah2Vvo
 
@@ -45,6 +47,9 @@ NEXT_PUBLIC_1155_ADDRESS=0xd079F8118accead9500da1789211C59f9082a420
 NEXT_PUBLIC_GAME1_ADDRESS=0xc35ff703651C77d40D67a1BbE5c48B05AEd2116d
 NEXT_PUBLIC_GAME2_ADDRESS=0x399976a281bc8554973E01b70AFc426f4dED0f5B
 ```
+## Demo
+https://nextjs-chunghosuk.vercel.app/
+
 
 ## Sample Game
 DEOMO : https://ethconkorea2023.github.io/sample-game/
