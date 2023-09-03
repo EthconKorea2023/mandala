@@ -1,75 +1,58 @@
-# 🏗 Scaffold-ETH 2
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+# Mandala : Ultimate Web3 Gaming Inventory
+A game dev who is unfamiliar with web3 can easily create web3 games using the inventory. It provides the best advertising experience that will satisfy gamers, game dev and advertisers alike.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+## Video
+https://youtu.be/kxmdGah2Vvo
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, and Typescript.
+## What account abstraction SDK/API you used to qualify
+we have used Biconomy SDK. We used Biconomy Social Login and Paymaster
+## Linea Configured in codes
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+```js
+const bundler: IBundler = new Bundler({
+  bundlerUrl: "https://bundler.biconomy.io/api/v2/59140/abc", // you can get this value from biconomy dashboard.
+  // bundlerUrl: "https://bundler.biconomy.io/api/v2/59140/nJPK7B3ru.dd7f7861-190d-41bd-af80-6877f74b8f44", // you can get this value from biconomy dashboard.
+  chainId: ChainId.LINEA_TESTNET,
+  entryPointAddress: DEFAULT_ENTRYPOINT_ADDRESS,
+});
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/1171422a-0ce4-4203-bcd4-d2d1941d198b)
+const socialLoginSDK = new SocialLogin();
+      const signature2 = await socialLoginSDK.whitelistUrl("https://nextjs-chunghosuk.vercel.app");
+      await socialLoginSDK.init({
+        chainId: ethers.utils.hexValue(ChainId.LINEA_TESTNET).toString(),
+        network: "testnet",
+        whitelistUrls: {
+          "https://nextjs-chunghosuk.vercel.app": signature2,
+        },
+      });
 
-## Requirements
-
-Before you begin, you need to install the following tools:
-
-- [Node (v18 LTS)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
-
-## Quickstart
-
-To get started with Scaffold-ETH 2, follow the steps below:
-
-1. Clone this repo & install dependencies
-
-```
-git clone https://github.com/scaffold-eth/scaffold-eth-2.git
-cd scaffold-eth-2
-yarn install
-```
-
-2. Run a local network in the first terminal:
-
-```
-yarn chain
+const biconomySmartAccountConfig: BiconomySmartAccountConfig = {
+        signer: web3Provider.getSigner(),
+        chainId: ChainId.LINEA_TESTNET,
+        bundler: bundler,
+        paymaster: paymaster,
+      };
 ```
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `hardhat.config.ts`.
+## Linea Testnet Contracts
 
-3. On a second terminal, deploy the test contract:
-
-```
-yarn deploy
-```
-
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
-
-4. On a third terminal, start your NextJS app:
-
-```
-yarn start
+```env
+NEXT_PUBLIC_ACCOUNT_CONTRACT_ADDRESS=0xeBeEd9ad8C439601cfA997Df05ED00A2167462A0
+NEXT_PUBLIC_REGISTRY_CONTRACT_ADDRESS=0x232579308a3673859Fe795d9FE4076b9f0480D33
+NEXT_PUBLIC_NFTFACTORY_CONTRACT_ADDRESS=0x741893c7AFC4fD48897DF9B2a2b2DF979Ba4C10d
+NEXT_PUBLIC_1155_ADDRESS=0xd079F8118accead9500da1789211C59f9082a420
+NEXT_PUBLIC_GAME1_ADDRESS=0xc35ff703651C77d40D67a1BbE5c48B05AEd2116d
+NEXT_PUBLIC_GAME2_ADDRESS=0x399976a281bc8554973E01b70AFc426f4dED0f5B
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the contract component or the example ui in the frontend. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+## Sample Game
+DEOMO : https://ethconkorea2023.github.io/sample-game/
+REPO : https://github.com/EthconKorea2023/sample-game
 
-Run smart contract test with `yarn hardhat:test`
+### 🏗 Scaffold-ETH 2
 
-- Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
-- Edit your frontend in `packages/nextjs/pages`
-- Edit your deployment scripts in `packages/hardhat/deploy`
 
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
 
 ## Contributing to Scaffold-ETH 2
 
