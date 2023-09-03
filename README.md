@@ -52,7 +52,7 @@ https://nextjs-chunghosuk.vercel.app/
 
 
 ## Sample Game
-DEOMO : https://ethconkorea2023.github.io/sample-game/
+DEMO : https://ethconkorea2023.github.io/sample-game/    
 REPO : https://github.com/EthconKorea2023/sample-game
 
 ### 🏗 Scaffold-ETH 2
